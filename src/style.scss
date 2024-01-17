@@ -1,5 +1,8 @@
 @use "./style/vars.scss" as *;
 
+@import "node_modules/@fortawesome/fontawesome-free/css/all.min.css";
+@import "node_modules/flag-icons/css/flag-icons.min.css";
+
 * {
   margin: 0;
   padding: 0;

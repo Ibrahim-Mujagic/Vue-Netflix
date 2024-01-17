@@ -5,14 +5,9 @@ export default {
   data() {
     return {
       store,
-      userItemToSearch: "",
     };
   },
-  methods: {
-    sendData() {
-      this.$emit("userValue", this.userItemToSearch);
-    },
-  },
+  methods: {},
 };
 </script>
 
@@ -22,23 +17,25 @@ export default {
       <img :src="store.getImg('netflix-logo.png')" alt="Logo" />
       <nav>
         <ul>
-          <li><a href="#">Home</a></li>
-          <li><a href="#">Film</a></li>
-          <li><a href="#">Serie Tv</a></li>
+          <li><a @click="$emit('getPopular')" href="#">Home</a></li>
+          <li><a @click="$emit('getPopular')" href="#">Film</a></li>
+          <li><a @click="$emit('getTv')" href="#">Serie Tv</a></li>
         </ul>
       </nav>
     </div>
 
     <div class="searchbar">
       <input
-        @keyup.enter="sendData()"
-        v-model="userItemToSearch"
+        @keyup.enter="$emit('search')"
+        v-model.trim="store.userItemToSearch"
         type="text"
         placeholder="Cerca"
       />
-      <button @click="sendData()">
-        <i class="fa-solid fa-magnifying-glass"></i>
-      </button>
+      <select @change="$emit('search')" v-model="store.type">
+        <option value="">Tutto</option>
+        <option value="movie">Film</option>
+        <option value="tv">Tv</option>
+      </select>
     </div>
   </header>
 </template>
@@ -100,15 +97,17 @@ header {
         box-shadow: 0px 0px 15px $main-red;
       }
     }
-    button {
-      font-size: 1.5rem;
+    select {
+      font-size: 1.1rem;
       color: #ffffff;
       background-color: transparent;
       border: 1px solid #ffffff;
       height: 38px;
-      aspect-ratio: 1/1;
+      width: 100px;
       border-radius: 6px;
+      padding: 0px 7px;
       cursor: pointer;
+
       &:hover {
         box-shadow: 0px 0px 15px #ffffff;
         text-shadow: 0px 0px 2px #ffffff;

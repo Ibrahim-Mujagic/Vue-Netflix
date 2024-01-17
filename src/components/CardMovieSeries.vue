@@ -1,31 +1,71 @@
 <script>
+import { store } from "../data/store";
+
 export default {
   name: "CardMovieSeries",
   props: {
-    entertainmentData: Object,
+    title: String,
+    type: String,
   },
-  methods: {},
+  data() {
+    return {
+      store,
+      apiFlagsToRemove: ["it", "en", "us"],
+    };
+  },
 };
 </script>
 
 <template>
-  <div class="card">
+  <div v-for="(item, index) in store[type]" :key="index" class="card">
     <div class="cont-image">
       <img
-        :src="'https://image.tmdb.org/t/p/w342' + entertainmentData.poster_path"
-        :alt="entertainmentData.title"
+        v-if="item.poster_path"
+        :src="'https://image.tmdb.org/t/p/w342' + item.poster_path"
+        :alt="item.title"
+      />
+      <img
+        v-else
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/No-Image-Placeholder.svg/832px-No-Image-Placeholder.svg.png"
+        alt=""
       />
     </div>
     <div class="card-body">
       <div class="cont-title">
-        <h3 class="title">{{ entertainmentData.title }}</h3>
+        <h3 class="title">
+          {{ item.title || item.name }}
+        </h3>
       </div>
       <div class="detail-card">
         <p class="original-title">
-          Original Title: {{ entertainmentData.original_title }}
+          Original Title:
+          {{ item.original_title || item.original_name }}
         </p>
-        <p class="lang">Lang: {{ entertainmentData.original_language }}</p>
-        <p class="vote">Vote: {{ entertainmentData.vote_average }}</p>
+        <p class="lang">
+          Lang:
+          {{
+            !apiFlagsToRemove.includes(item.original_language)
+              ? item.original_language
+              : ""
+          }}
+          <span
+            :class="{
+              ' fi': true,
+              'fi-it': item.original_language === 'it',
+              'fi-gb': item.original_language === 'en',
+              'fi-us': item.original_language === 'us',
+            }"
+          ></span>
+        </p>
+        <div class="vote">
+          Vote:
+          <i
+            v-for="(star, index) in 5"
+            :key="index"
+            class="fa-star"
+            :class="index < Math.ceil(item.vote_average / 2) ? 'fas' : 'far'"
+          ></i>
+        </div>
       </div>
     </div>
   </div>
@@ -33,9 +73,14 @@ export default {
 
 <style lang="scss" scoped>
 @use "../style/vars" as *;
+h2 {
+  display: block;
+}
 .card {
   height: 360px;
   width: calc(100% / 5 - 50px);
+  min-width: 225px;
+  max-width: 250px;
   position: relative;
   box-shadow: 0px 0px 6px #ffffff;
   cursor: pointer;
@@ -52,17 +97,13 @@ export default {
   }
 
   &:hover .card-body {
-    height: 55%;
-    padding-bottom: 10px;
-  }
-
-  &:hover .card-body .cont-title {
-    margin-bottom: 5%;
+    height: 50%;
   }
 
   .card-body {
     width: 100%;
-    height: 75px;
+    height: 0px;
+    max-height: 50%;
     position: absolute;
     left: 0px;
     bottom: 0px;
@@ -70,27 +111,15 @@ export default {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    justify-content: space-between;
     overflow: hidden;
     border-end-start-radius: 2px;
     border-end-end-radius: 2px;
-    padding: 10px 7px;
     transition: all 1s ease-in-out;
 
-    .cont-title {
-      transition: margin 1s ease-in-out;
-      height: 40%;
-      width: 100%;
-      margin-bottom: 25%;
-
-      .title {
-        font-size: 0.9rem;
-      }
-    }
-
+    .title,
     .detail-card {
-      width: 100%;
       font-size: 0.9rem;
+      margin: 6px;
     }
   }
 }

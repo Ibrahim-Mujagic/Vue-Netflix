@@ -15,36 +15,70 @@ export default {
     };
   },
   methods: {
-    getApiData(apiUrl, type, userItemToSearch) {
+    getApiData(type, isPopular = false) {
+      let apiUrl;
+      isPopular
+        ? (apiUrl = `https://api.themoviedb.org/3/${type}/popular`)
+        : (apiUrl = store.apiUrl + type);
+
       axios
-        .get(apiUrl + type, {
+        .get(apiUrl, {
           params: {
             api_key: store.api_key,
-            query: userItemToSearch,
+            query: store.userItemToSearch,
           },
         })
         .then((result) => {
-          store.userFindedData = result.data;
-          console.log(store.userFindedData);
+          store[type] = result.data.results;
+          console.log(store[type]);
         });
     },
-    getUserValue(userValue) {
-      this.getApiData(store.apiUrl, "movie", userValue);
+    startSearch() {
+      store.movie = [];
+      store.tv = [];
+
+      if (store.type === "") {
+        this.getApiData("movie", false);
+        this.getApiData("tv", false);
+      } else {
+        this.getApiData(store.type, false);
+      }
     },
+    getPopularTvMovie(isMovie) {
+      store.movie = [];
+      store.tv = [];
+
+      if (isMovie) {
+        this.getApiData("movie", true);
+      } else {
+        this.getApiData("tv", true);
+      }
+    },
+  },
+  mounted() {
+    this.getApiData("movie", true);
+    this.getApiData("tv", true);
   },
 };
 </script>
 
 <template>
   <div class="container-general">
-    <HeaderComp @userValue="getUserValue" />
+    <HeaderComp
+      @search="startSearch()"
+      @getPopular="getPopularTvMovie(true)"
+      @getTv="getPopularTvMovie(false)"
+    />
     <main>
-      <div class="movie-cards">
-        <CardMovieSeries
-          v-for="(entertainmentItem, index) in store.userFindedData.results"
-          :key="index"
-          :entertainmentData="entertainmentItem"
-        />
+      <div class="movie-tv-cards">
+        <h2 v-if="store.movie.length > 0">Film</h2>
+        <div class="container-movies">
+          <CardMovieSeries type="movie" />
+        </div>
+        <h2 v-if="store.tv.length > 0">Tv</h2>
+        <div class="container-tv">
+          <CardMovieSeries type="tv" />
+        </div>
       </div>
     </main>
   </div>
@@ -60,12 +94,18 @@ main {
     font-size: 1.8rem;
     margin: 10px;
   }
-  .movie-cards {
-    padding: 30px;
+  .movie-tv-cards {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .container-movies,
+  .container-tv {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 30px;
     justify-content: center;
+    margin-bottom: 25px;
   }
 }
 </style>
