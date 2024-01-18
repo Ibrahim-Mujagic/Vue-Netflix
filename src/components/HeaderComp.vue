@@ -14,11 +14,11 @@ export default {
 <template>
   <header>
     <div class="logo-nav">
-      <img :src="store.getImg('netflix-logo.png')" alt="Logo" />
+      <img :src="store.getImg('logo.png')" alt="Logo" />
       <nav>
         <ul>
           <li><a @click="$emit('getPopular')" href="#">Home</a></li>
-          <li><a @click="$emit('getPopular')" href="#">Film</a></li>
+          <li><a @click="$emit('getMovie')" href="#">Film</a></li>
           <li><a @click="$emit('getTv')" href="#">Serie Tv</a></li>
         </ul>
       </nav>
@@ -53,13 +53,13 @@ header {
   position: sticky;
   top: 0%;
   z-index: 999;
-  margin-bottom: 20px;
   .logo-nav {
     display: flex;
     align-items: center;
     img {
-      width: 200px;
+      height: 30px;
       cursor: pointer;
+      margin-right: 25px;
     }
     nav {
       ul {
@@ -111,6 +111,24 @@ header {
       &:hover {
         box-shadow: 0px 0px 15px #ffffff;
         text-shadow: 0px 0px 2px #ffffff;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  header {
+    height: 160px;
+    flex-direction: column;
+    padding: 0;
+    justify-content: center;
+    .logo-nav {
+      flex-direction: column;
+      margin-bottom: 18px;
+      img {
+        height: 25px;
+        object-fit: contain;
+        margin-bottom: 15px;
       }
     }
   }

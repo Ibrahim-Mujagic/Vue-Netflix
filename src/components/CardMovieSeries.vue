@@ -11,13 +11,20 @@ export default {
     return {
       store,
       apiFlagsToRemove: ["it", "en", "us"],
+      sendType: this.type,
     };
   },
 };
 </script>
 
 <template>
-  <div v-for="(item, index) in store[type]" :key="index" class="card">
+  <router-link
+    v-for="(item, index) in store[type]"
+    :key="item.id"
+    class="card"
+    :to="{ name: 'Detail', params: { id: item.id } }"
+    @click="$emit('showMyDetail')"
+  >
     <div class="cont-image">
       <img
         v-if="item.poster_path"
@@ -68,7 +75,7 @@ export default {
         </div>
       </div>
     </div>
-  </div>
+  </router-link>
 </template>
 
 <style lang="scss" scoped>
@@ -85,6 +92,7 @@ h2 {
   box-shadow: 0px 0px 6px #ffffff;
   cursor: pointer;
   border-radius: 2px;
+  color: #ffffff;
   .cont-image {
     height: 100%;
     width: 100%;

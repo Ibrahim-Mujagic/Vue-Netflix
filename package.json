@@ -13,7 +13,8 @@
     "axios": "^1.6.5",
     "flag-icons": "^7.1.0",
     "vue": "^3.3.11",
-    "vue-axios": "^3.5.2"
+    "vue-axios": "^3.5.2",
+    "vue-router": "^4.2.5"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.5.2",
