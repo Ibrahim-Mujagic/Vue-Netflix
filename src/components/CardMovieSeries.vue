@@ -86,7 +86,7 @@ h2 {
 .card {
   height: 360px;
   width: calc(100% / 5 - 50px);
-  min-width: 225px;
+  min-width: 220px;
   max-width: 250px;
   position: relative;
   box-shadow: 0px 0px 6px #ffffff;
@@ -129,6 +129,11 @@ h2 {
       font-size: 0.9rem;
       margin: 6px;
     }
+  }
+}
+@media screen and (max-width: 720px) {
+  .card {
+    min-width: 190px;
   }
 }
 </style>
