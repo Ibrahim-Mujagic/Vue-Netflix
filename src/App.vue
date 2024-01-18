@@ -16,6 +16,7 @@ export default {
     return {
       store,
       isShowDetail: false,
+      isSearchedItem: false,
       clock: "",
     };
   },
@@ -39,6 +40,7 @@ export default {
         });
     },
     startSearch() {
+      this.isSearchedItem = true;
       store.movie = [];
       store.tv = [];
 
@@ -51,6 +53,7 @@ export default {
     },
     getPopularTvMovie(isMovie, isShowAll) {
       this.isShowDetail = false;
+      this.isSearchedItem = false;
       store.movie = [];
       store.tv = [];
 
@@ -111,7 +114,7 @@ export default {
     <main v-if="!isShowDetail">
       <div
         class="cont-slider"
-        v-if="store.tv.length > 0 && store.movie.length > 0"
+        v-if="store.tv.length > 0 && store.movie.length > 0 && !isSearchedItem"
       >
         <SliderComp
           v-for="(slide, index) in store.movie"
