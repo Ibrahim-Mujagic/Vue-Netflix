@@ -1,7 +1,7 @@
-# Vue 3 + Vite
+# Vue Netflix
+## Replica del della WebApp Netflix
+### Fatto con Html,Sass e Vue
+### Andando nella cartella risultato troverete la versione Desktop,Tablet,Smartphone e la Detail
+## Spero che vi piaccia 
+![image-removebg-preview-4](https://github.com/Ibrahim-Mujagic/Vue-Vite-Slider/assets/150658345/cdc06096-7da9-4a60-852a-5caddf5863de)
 
-This template should help get you started developing with Vue 3 in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
-
-## Recommended IDE Setup
-
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
